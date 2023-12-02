@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title> My hemming code</title>
+	<script>
+	function code(){
+		let inpText=document.getElementById('inpMessage').value;
+		//to do hemming code
+		iText=inpText.split('');
+		if (iText.length!=4){
+			document.getElementById('inpMessage').value='Допускается длина кода только в 4 бита';
+			document.getElementById('outputMessage').value='None';
+		}
+		else{
+			for (let i=0;i<iText.length;i++){
+				iText[i]=parseInt(iText[i]);
+				if (iText[i]!=0 && iText[i]!=1){
+					document.getElementById('inpMessage').value='Введены недопустимые символы';
+					document.getElementById('outputMessage').value='None';
+					return 1;
+				}
+			}
+			//cb - control bits
+			let cb1=(iText[0]+iText[1]+iText[3])%2;
+			let cb2=(iText[1]+iText[2]+iText[3])%2;
+			let cb3=(iText[0]+iText[2]+iText[3])%2;
+			document.getElementById('outputMessage').value=inpText+cb1+cb2+cb3;
+		}
+	}
+	function check(){
+		let outpText = document.getElementById('outputMessage').value;
+		oText=outpText.split('');
+		for (let i=0;i<4;i++){
+			oText[i]=parseInt(oText[i]);
+		}
+		let cb1=oText[4];//cb which we received 
+		let cb2=oText[5];
+		let cb3=oText[6];
+		
+		let cb11=(oText[0]+oText[1]+oText[3])%2;//сb which should be with the received 4 bits
+		let cb21=(oText[1]+oText[2]+oText[3])%2;
+		let cb31=(oText[0]+oText[2]+oText[3])%2;
+		if (cb1!=cb11 && cb2!=cb21 && cb3!=cb31){
+			oText[3]=Math.abs(1- oText[3]);
+			document.getElementById('Message').value='Ошибка была в четвертом бите'			
+		}
+		else if(cb1!=cb11 && cb2!=cb21){
+			oText[1]=Math.abs(1- oText[1]); 
+			document.getElementById('Message').value='Ошибка была во втором бите'
+		}
+		else if(cb2!=cb21 && cb3!=cb31){
+			oText[2]=Math.abs(1- oText[2]);
+			document.getElementById('Message').value='Ошибка была в третьем бите'			
+		}
+		else if(cb1!=cb11 &&cb3!=cb31){
+			oText[0]=Math.abs(1- oText[0]);
+			document.getElementById('Message').value='Ошибка была в первом бите'
+		}
+		else if (cb1!=cb11){
+			oText[4]=cb11;
+			document.getElementById('Message').value='Ошибка была в пятом бите'
+			
+		}
+		else if (cb2!=cb21){
+			oText[5]=cb21;
+			document.getElementById('Message').value='Ошибка была в шестом бите'
+			
+		}
+		else if (cb3!=cb31){
+			oText[6]=cb31;
+			document.getElementById('Message').value='Ошибка была в седьмом бите'
+			
+		}
+		else{
+			document.getElementById('Message').value='Ошибки не было'
+		}
+		document.getElementById('checkMessage').value=oText.join('');
+		
+		
+	}
+	
+	</script>
+	
+		
+	</head>
+	<body>
+	<h1> Beleva, Hemming code</h1>
+	<p><input type='text'id='inpMessage' size='30' value='0000'/> input message,4 bits</p>
+	<p><input type='button' value='Code'onclick='code()'/></p>
+	<p><input type='text' id='outputMessage' size='30'/> coded message</p>
+	<p><input type='button' value='Check'onclick='check()'></p>
+	<p><input type='text' id ='checkMessage'size='30'/> original message</p>
+	<p><input type='text' size='30' id ='Message'/> location of the error</p>
+	</body>
+</html>
