@@ -1,0 +1,20 @@
+input 52
+input 53
+set 54 0
+set 55 1
+set 56 0
+max 52 53 54
+: 17
+mod 54 52 57
+mod 54 53 58
+eq 57 56
+jnz 39
+eq 58 56
+jnz 39
+goto 47
+: 39
+add 54 55 54
+goto 17
+: 47
+output 54
+exit

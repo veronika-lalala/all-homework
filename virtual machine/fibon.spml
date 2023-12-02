@@ -1,0 +1,19 @@
+input 52
+set 53 0
+set 54 1
+set 55 0
+set 56 1
+set 57 1
+add 53 54 55
+eq 52 56
+jz 47
+: 26
+add 53 54 55
+push 54 53
+push 55 54
+add 56 57 56
+eq 52 56
+jnz 26
+: 47
+output 55
+exit

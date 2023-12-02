@@ -1,0 +1,5 @@
+input 11
+input 12
+add 11 12 13
+output 13
+exit
